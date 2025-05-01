@@ -1,4 +1,4 @@
-$BinaryUrl = "https://github.com/JoYBoY1210/GoProx/releases/download/v1.0/GoProx.exe"
+$BinaryUrl = "https://github.com/JoYBoY1210/GoProx/releases/download/v1.0.0/GoProxSetup.exe"
 $InstallDir = "$env:USERPROFILE\AppData\Local\Programs\GoProx"
 $BinaryPath = "$InstallDir\GoProx.exe"
 
