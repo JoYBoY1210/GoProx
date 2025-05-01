@@ -1,18 +1,21 @@
+$BinaryUrl = "https://github.com/JoYBoY1210/GoProx/releases/download/v1.0/GoProx.exe"
+$InstallDir = "$env:USERPROFILE\AppData\Local\Programs\GoProx"
+$BinaryPath = "$InstallDir\GoProx.exe"
 
-$downloadUrl = "https://github.com/JoYBoY1210/GoProx/releases/download/v1.0.0/GoProxSetup.exe"
-
-$destination = "$env:USERPROFILE\GoProx.exe"
-
-
-Write-Host "Downloading GoProx.exe..."
-Invoke-RestMethod -Uri $downloadUrl -OutFile $destination
-
-
-if (Test-Path $destination) {
-    Write-Host "GoProx.exe downloaded successfully to $destination."
-   
-    $env:Path += ";$destination"
-    Write-Host "GoProx has been added to your system PATH."
-} else {
-    Write-Host "Failed to download GoProx.exe."
+if (!(Test-Path $InstallDir)) {
+    New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null
 }
+
+Invoke-WebRequest -Uri $BinaryUrl -OutFile $BinaryPath
+Write-Output "`n✅ Installed GoProx.exe to $InstallDir"
+
+
+$UserPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
+if ($UserPath -notlike "*$InstallDir*") {
+    [System.Environment]::SetEnvironmentVariable("Path", "$UserPath;$InstallDir", [System.EnvironmentVariableTarget]::User)
+    Write-Output "➡️  Added '$InstallDir' to your PATH."
+} else {
+    Write-Output "ℹ️  '$InstallDir' already in PATH."
+}
+
+Write-Output "`nYou can now run the proxy tool directly from the terminal with 'GoProx'. Please restart your terminal if it doesn't work immediately."
